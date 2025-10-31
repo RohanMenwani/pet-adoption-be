@@ -13,5 +13,6 @@ router.get('/:id', petController.getPet);
 router.post('/', authMiddleware, requireRole('admin'), petController.createPet);
 router.put('/:id', authMiddleware, requireRole('admin'), petController.updatePet);
 router.delete('/:id', authMiddleware, requireRole('admin'), petController.removePet);
+router.patch('/:id/status', authMiddleware, requireRole('admin'), petController.updatePetStatus);
 
 export default router;

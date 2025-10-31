@@ -9,5 +9,7 @@ router.post('/', authMiddleware, applicationController.apply);
 router.get('/me', authMiddleware, applicationController.listUserApplications);
 router.get('/', authMiddleware, requireRole('admin'), applicationController.listAllApplications);
 router.post('/:id/process', authMiddleware, requireRole('admin'), applicationController.processApp);
+router.get('/:id', authMiddleware, applicationController.getApplicationById);
+router.patch('/:id/status', authMiddleware, requireRole('admin'), applicationController.updateApplicationStatus);
 
 export default router;
