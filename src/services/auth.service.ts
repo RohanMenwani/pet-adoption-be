@@ -27,3 +27,9 @@ export async function loginUser(email: string, password: string) {
   if (!ok) throw new Error('Invalid credentials');
   return user;
 }
+
+export async function getProfile(userId: string) {
+  const user = await User.findById(userId).select('-passwordHash');
+  if (!user) throw new Error('User not found');
+  return user;
+}
