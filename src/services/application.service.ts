@@ -51,3 +51,39 @@ export async function processApplication(applicationId: string, action: 'approve
 
   return app;
 }
+
+export async function getApplicationById(id: string) {
+  if (!Types.ObjectId.isValid(id)) throw new Error('Invalid application ID');
+  const app = await Application.findById(id)
+    .populate('pet')
+    .populate('applicant', 'name email role');
+  if (!app) throw new Error('Application not found');
+  return app;
+}
+
+export async function updateApplicationStatus(
+  applicationId: string,
+  status: 'approved' | 'rejected',
+  adminId: string,
+  note?: string
+) {
+  const app = await Application.findById(applicationId).populate('pet');
+  if (!app) throw new Error('Application not found');
+
+  if (app.status !== 'applied') throw new Error('Already processed');
+  app.status = status;
+  app.noteByAdmin = note;
+  app.reviewedBy = adminId;
+  app.processedAt = new Date();
+  await app.save();
+
+  if (status === 'approved' && app.pet) {
+    const pet = await Pet.findById(app.pet._id);
+    if (pet) {
+      pet.status = 'adopted';
+      await pet.save();
+    }
+  }
+
+  return app;
+}

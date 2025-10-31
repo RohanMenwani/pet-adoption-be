@@ -25,3 +25,16 @@ export async function processApp(req: Request, res: Response) {
   const app = await applicationService.processApplication(id, action, note);
   res.json(app);
 }
+
+export async function getApplicationById(req: Request, res: Response) {
+  const app = await applicationService.getApplicationById(req.params.id);
+  res.json(app);
+}
+
+export async function updateApplicationStatus(req: Request, res: Response) {
+  const { id } = req.params;
+  const { status, note } = req.body;
+  const adminId = (req as any).user.id;
+  const updated = await applicationService.updateApplicationStatus(id, status, adminId, note);
+  res.json(updated);
+}
