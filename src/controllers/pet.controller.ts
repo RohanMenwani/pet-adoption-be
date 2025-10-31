@@ -29,3 +29,10 @@ export async function removePet(req: Request, res: Response) {
   await petService.deletePet(req.params.id);
   res.json({ ok: true });
 }
+
+export async function updatePetStatus(req: Request, res: Response) {
+  const { id } = req.params;
+  const { status } = req.body;
+  const updated = await petService.updatePetStatus(id, status);
+  res.json(updated);
+}
