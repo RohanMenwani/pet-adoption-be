@@ -6,6 +6,7 @@ import authRoutes from './routes/auth.route';
 import petRoutes from './routes/pet.route';
 import applicationRoutes from './routes/application.route';
 import { errorHandler } from './middlewares/error.middleware';
+import adminRoutes from './routes/admin.route';
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(json());
 app.use('/api/auth', authRoutes);
 app.use('/api/pets', petRoutes);
 app.use('/api/applications', applicationRoutes);
+app.use('/api/admin', adminRoutes);
 
 // health
 app.get('/health', (req, res) => res.json({ ok: true }));
